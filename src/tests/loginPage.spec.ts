@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { Builder, Browser } from "selenium-webdriver";
 import LoginPage from "../pages/loginPage";
+import InventoryPage from "../pages/inventoryPage";
 
 let driver = new Builder().forBrowser(Browser.CHROME).build();
 
@@ -26,12 +27,6 @@ describe("TS0001 - Поверка страницы логина", () => {
     await driver.get("https://www.saucedemo.com/");
     expect(await loginPage.isLoginFormDisplayed()).to.be.true;
   });
-
-  // it("TC0002 - Вход в систему в валидными данными", async () => {
-  //   await driver.get("https://www.saucedemo.com/");
-  //   await loginPage.inputLoginPassword("standard_user", "secret_sauce");
-  //   expect(await loginPage.isLoginFormDisplayed()).to.be.true;
-  // });
 
   itTCInvalidInput(
     "TC0003 - Ввод некорректных данных, отсутствует пароль",
@@ -80,5 +75,14 @@ describe("TS0001 - Поверка страницы логина", () => {
 
   it("TC0010 - Шифрование пароля", async () => {
     expect(await loginPage.getPasswordType()).to.equal("password");
+  });
+
+  it("TC0002 - Вход в систему в валидными данными", async () => {
+    await loginPage.inputLoginPassword("standard_user", "secret_sauce");
+    await loginPage.clickLoginButton();
+    expect(await new InventoryPage(driver).getHeaderSecondaryTittle()).to.equal(
+      "PRODUCTS"
+    );
+    await driver.quit();
   });
 });
