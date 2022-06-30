@@ -41,4 +41,17 @@ export default class Page {
       return error;
     }
   }
+  protected async isElementDisplayed(locator: string): Promise<boolean> {
+    return await this.driver
+      .findElement(By.css(locator))
+      .isDisplayed()
+      .catch(() => {
+        return false;
+      });
+  }
+  protected async getElementAttributeValue(locator: string, attribute: string) {
+    return await this.driver
+      .findElement(By.css(locator))
+      .getAttribute(attribute);
+  }
 }
