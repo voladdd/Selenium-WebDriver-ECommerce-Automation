@@ -54,4 +54,12 @@ export default class Page {
       .findElement(By.css(locator))
       .getAttribute(attribute);
   }
+  protected async getElementCssPropertyValue(
+    locator: string,
+    cssProperty: string
+  ) {
+    return await this.driver
+      .findElement(By.css(locator))
+      .getCssValue(cssProperty);
+  }
 }

@@ -18,6 +18,32 @@ export default class LoginPage extends Page {
   async clickLoginButton() {
     await this.clickButton(this.loginButtonLocator);
   }
+  async isErrorMessageHaveRedColor(): Promise<boolean | Error> {
+    const redColor = "rgba(226, 35, 26, 1)";
+    const loginColor = await this.getElementCssPropertyValue(
+      this.loginLocator,
+      "border-bottom-color"
+    );
+    const passwordColor = await this.getElementCssPropertyValue(
+      this.passwordLocator,
+      "border-bottom-color"
+    );
+    const messageColor = await this.getElementCssPropertyValue(
+      this.errorMessageLocator,
+      "color"
+    );
+    if (
+      loginColor === redColor &&
+      passwordColor &&
+      redColor &&
+      messageColor &&
+      redColor
+    ) {
+      return true;
+    } else {
+      throw "Wrong color!";
+    }
+  }
   async getErrorMessage(): Promise<string | Error> {
     return await this.getFieldValue(this.errorMessageLocator);
   }

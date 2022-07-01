@@ -18,6 +18,7 @@ describe("TS0001 - Поверка страницы логина", () => {
       await loginPage.inputLoginPassword(login, password);
       await loginPage.clickLoginButton();
       expect(await loginPage.getErrorMessage()).to.equal(errorExpected);
+      expect(await loginPage.isErrorMessageHaveRedColor()).to.be.true;
       await loginPage.clearLoginAndPassword();
       await loginPage.closeErrorMessage();
     });
@@ -73,11 +74,11 @@ describe("TS0001 - Поверка страницы логина", () => {
     expect(await loginPage.isErrorMessageDisplayed()).to.be.false;
   });
 
-  it("TC0010 - Шифрование пароля", async () => {
+  it("TC0010 - Вывод * вместо символов пароля", async () => {
     expect(await loginPage.getPasswordType()).to.equal("password");
   });
 
-  it("TC0002 - Вход в систему в валидными данными", async () => {
+  it("TC0002 - Вход в систему с валидными данными", async () => {
     await loginPage.inputLoginPassword("standard_user", "secret_sauce");
     await loginPage.clickLoginButton();
     expect(await new InventoryPage(driver).getHeaderSecondaryTittle()).to.equal(
